@@ -1,38 +1,31 @@
 require "Pomba"
 require "cenario"
 
+dta = 0
+
 function love.load()
-  love.physics.setMeter(64)
-  mundo = love.physics.newWorld(0,  9.81 * 64, true)
-
-  objetos = {}
-
-  objetos.chao = {}
-  objetos.chao.body = love.physics.newBody(mundo, 1024, 600)
-  objetos.chao.shape = love.physics.newRectangleShape(1024, 100)
-  objetos.chao.fixture = love.physics.newFixture(objetos.chao.body, objetos.chao.shape)
-
-  objetos.pomba = {}
-  objetos.pomba.body = love.physics.newBody(mundo, 120, 330, "dynamic")
-  objetos.pomba.shape = love.physics.newRectangleShape(50, 50)
-  objetos.pomba.fixture = love.physics.newFixture(objetos.pomba.body, objetos.pomba.shape, 1)
-  objetos.pomba.fixture:setRestitution(0.9)
-
   cenario.load()
   pomba.load()
 end
 
 function love.draw()
-  cenario.desenha()
-  pomba.desenha()
+    cenario.desenha()
+    pomba.desenha()
+    love.graphics.print("FPS: " .. math.floor(1/dta) , love.graphics.getWidth() - 50, love.graphics.getHeight() - 15)
 end
-
+    
 function love.update(dt)
-    pomba.gravidade()
-    pomba.disparar()
-
+    trataEntradas()
+    pomba.atualizaPosicao(math.floor(1/dt))   
+    dta = dt
 end
 
 function love.focus(bool)
 
+end
+
+function trataEntradas()
+    if love.mouse.isDown(1) then
+		pomba.disparar()
+	end	
 end
