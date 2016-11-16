@@ -6,6 +6,9 @@ dta = 0
 function love.load()
   cenario.load()
   pomba.load()
+  musica = love.audio.newSource("som/chiptune.mp3", "stream")
+  love.audio.play(musica)
+  musica:setVolume(.35)
 end
 
 function love.draw()
@@ -13,10 +16,10 @@ function love.draw()
     pomba.desenha()
     love.graphics.print("FPS: " .. math.floor(1/dta) , love.graphics.getWidth() - 50, love.graphics.getHeight() - 15)
 end
-    
+
 function love.update(dt)
     trataEntradas()
-    pomba.atualizaPosicao(math.floor(1/dt))   
+    pomba.atualizaPosicao(math.floor(1/dt))
     dta = dt
 end
 
@@ -27,5 +30,5 @@ end
 function trataEntradas()
     if love.mouse.isDown(1) then
 		pomba.disparar()
-	end	
+	end
 end

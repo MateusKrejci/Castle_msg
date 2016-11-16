@@ -24,7 +24,7 @@ function pomba.disparar()
 end
 
 function pomba.gravidade(fps)
-    if (pombaDisparada == 1) then 
+    if (pombaDisparada == 1) then
         pombaVelocidadeVertical = pombaVelocidadeVertical - pombaGravidade * (1/fps)
     end
 end
