@@ -1,1 +1,0 @@
-"C:\Program Files\LOVE\lovec.exe" "C:\Users\Henrique\Documents\GitHub\Castle_msg"
