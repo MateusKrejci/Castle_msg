@@ -1,53 +1,43 @@
-pomba = {}
+pomba = {
+    grafico = love.graphics.newImage("/sprites/Pomba.png"),
+    largura = 50,
+    altura = 50,
+    x = 0,
+    y = 0,
+    velocidadeHorizontal = 0,
+    velocidadeVertical = 0,
+    disparada = 0,
+}
 
 function pomba.load()
-    Pomba = love.graphics.newImage("/sprites/Pomba.png")
-    _pombaLargura = 50
-    _pombaAltura = 50
-    _pombaArrastoHorizontal = 10
-    _pombaVelocidadeHorizontal = 0
-    _pombaVelocidadeVertical = 0
-    _pombaX = 120
-    _pombaY = 330
-    _pombaDisparada = 0
-    _pombaGravidade = -1000
+        pomba.x = 120
+        pomba.y = 330
+        pomba.velocidadeHorizontal = 0
+        pomba.velocidadeVertical = 0
+        pomba.disparada = 0
+    
 end
 
 function pomba.desenha()
-    love.graphics.draw(Pomba, _pombaX, _pombaY)
+    love.graphics.draw(pomba.grafico, pomba.x, pomba.y)
 end
 
 function pomba.disparar(forca, direcao)
-    if _pombaDisparada == 0 then
-		_pombaDisparada = 1
-		_pombaVelocidadeHorizontal = forca * (math.cos(direcao))
-		_pombaVelocidadeVertical = forca * (math.sin(direcao))
+    if pomba.disparada == 0 then
+		pomba.disparada = 1
+		pomba.velocidadeHorizontal = forca * (math.cos(direcao))
+		pomba.velocidadeVertical = forca * (math.sin(direcao))
 	end
 end
 
 function pomba.gravidade(fps)
-    if (_pombaDisparada == 1) then 
-        _pombaVelocidadeVertical = _pombaVelocidadeVertical - _pombaGravidade * (1/fps)
+    if (pomba.disparada == 1) then 
+        pomba.velocidadeVertical = pomba.velocidadeVertical  + 1000 * (1/fps)
     end
 end
 
 function pomba.atualizaPosicao(fps)
-    _pombaX = math.floor(_pombaX + _pombaVelocidadeHorizontal*(1/fps))
-    _pombaY = math.floor(_pombaY + _pombaVelocidadeVertical*(1/fps))
+    pomba.x = math.floor(pomba.x + pomba.velocidadeHorizontal*(1/fps))
+    pomba.y = math.floor(pomba.y + pomba.velocidadeVertical*(1/fps))
     pomba.gravidade(fps)
-end
-
-function pomba.getX()
-	return _pombaX 
-end
-function pomba.getY()
-	return _pombaY
-end
-
-function pomba.getAltura()
-	return _pombaAltura
-end
-
-function pomba.getLargura()
-	return _pombaLargura
 end

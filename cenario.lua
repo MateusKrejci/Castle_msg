@@ -1,21 +1,23 @@
-cenario = {}
-semfogo = love.graphics.newImage("/sprites/semfogo.png")
-comfogo = love.graphics.newImage("/sprites/comfogo.png")
-queimado = love.graphics.newImage("/sprites/queimado.png")
+cenario = {    
+    semfogo = love.graphics.newImage("/sprites/background_ganhou.png"),
+    comfogo = love.graphics.newImage("/sprites/background__em_jogo.png"),
+    queimado = love.graphics.newImage("/sprites/background__perdeu.png"),
+    castelo = {x = 897, y = 364, altura = 141, largura = 110}        
+}
 
 function cenario.load()
-  _fundo = comfogo
+  cenario.fundo = cenario.comfogo
 end
 
 function cenario.desenha()
-  love.graphics.draw(_fundo, 0, 0)
+  love.graphics.draw(cenario.fundo, 0, 0)
 end
 
 function cenario.carregaVitoria()
-    _fundo = semfogo
+    cenario.fundo = cenario.semfogo
 end
 
 function cenario.carregaDerrota()
-    _fundo = queimado
+    cenario.fundo = cenario.queimado
 end
 
