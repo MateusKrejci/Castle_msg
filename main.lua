@@ -2,16 +2,20 @@ require "Pomba"
 require "cenario"
 
 dta = 0
-
+casteloX = 897
+casteloY = 364
+casteloAltura = 141
+casteloLargura = 110
+musicafundo = love.audio.newSource("som/chiptune.mp3", "stream")
 
 function love.load()
 	cenario.load()
 	pomba.load()
 	cargaMouse = 0
 	statusJogo = 0 -- 0 aguardando 1 vitoria 2 derrota
-	musica = love.audio.newSource("som/chiptune.mp3", "stream")
-	love.audio.play(musica)
-	musica:setVolume(.35)
+	
+	love.audio.play(musicafundo)
+	musicafundo:setVolume(.35)
 end
 
 function love.draw()
@@ -50,6 +54,12 @@ function love.update(dt)
 	verificaResultado()
     pomba.atualizaPosicao(math.floor(1/dt))   
     dta = dt
+    if statusJogo == 1 then
+        cenario.carregaVitoria()
+    end
+    if statusJogo == 2 then
+        cenario.carregaDerrota()
+    end
 end
 
 function love.focus(bool)
@@ -65,15 +75,14 @@ function trataEntradas()
 	pombaLargura = pomba.getLargura()
 	
 	anguloAtaque = math.atan2(mouseY-(pombaY+(pombaAltura/2)),mouseX-(pombaX+(pombaLargura/2)))
-	-- forcaAtaque = (((mouseX-(pombaX+(pombaLargura/2)))^2+(mouseY-(pombaY+(pombaAltura/2)))^2)^0.5 ) * 10
 	
 	if cargaMouse > 2000 then
 		cargaMouse = 10
 	end
     if love.mouse.isDown(1) then
-		cargaMouse = cargaMouse + 10
+		cargaMouse = cargaMouse + 20
 	end	
-	if (cargaMouse > 0) and  not love.mouse.isDown(1) then
+	if (cargaMouse > 0) and  not love.mouse.isDown(1) then        
 		pomba.disparar(cargaMouse,anguloAtaque)
 		cargaMouse = 0
 	end
@@ -84,18 +93,23 @@ function trataEntradas()
 end
 
 function verificaResultado()
-	casteloX = 897
-	casteloY = 364
-	casteloAltura = 141
-	casteloLargura = 110
-	if (pombaX < 0 or pombaX > love.graphics.getWidth() or pombaY > love.graphics.getHeight()) and statusJogo == 0 then
+	
+	if pombaAtingiuCastelo() and statusJogo == 0 then
 		statusJogo = 2
 	end
 	
-	if (pombaX < casteloX + casteloLargura and
-   pombaX + pombaLargura > casteloX and
-   pombaY < casteloY + casteloAltura and
-   pombaAltura + pombaY > casteloY) and statusJogo == 0 then
+	if pombaSaiuDaTela() and statusJogo == 0 then
 		statusJogo = 1
     end
+end
+
+function pombaAtingiuCastelo()
+    return (pombaX < 0 or pombaX > love.graphics.getWidth() or pombaY > love.graphics.getHeight())
+end    
+
+function pombaSaiuDaTela()
+    return (pombaX < casteloX + casteloLargura and
+   pombaX + pombaLargura > casteloX and
+   pombaY < casteloY + casteloAltura and
+   pombaAltura + pombaY > casteloY) 
 end
