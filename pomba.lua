@@ -2,35 +2,52 @@ pomba = {}
 
 function pomba.load()
     Pomba = love.graphics.newImage("/sprites/Pomba.png")
-    pombaLargura = 50
-    pombaAltura = 50
-    pombaArrastoHorizontal = 10
-    pombaVelocidadeHorizontal = 0
-    pombaVelocidadeVertical = 0
-    pombaX = 120
-    pombaY = 330
-    pombaDisparada = 0
-    pombaGravidade = -1000
+    _pombaLargura = 50
+    _pombaAltura = 50
+    _pombaArrastoHorizontal = 10
+    _pombaVelocidadeHorizontal = 0
+    _pombaVelocidadeVertical = 0
+    _pombaX = 120
+    _pombaY = 330
+    _pombaDisparada = 0
+    _pombaGravidade = -1000
 end
 
 function pomba.desenha()
-    love.graphics.draw(Pomba, pombaX, pombaY)
+    love.graphics.draw(Pomba, _pombaX, _pombaY)
 end
 
-function pomba.disparar()
-    pombaDisparada = 1
-    pombaVelocidadeHorizontal = 500
-    pombaVelocidadeVertical = -200
+function pomba.disparar(forca, direcao)
+    if _pombaDisparada == 0 then
+		_pombaDisparada = 1
+		_pombaVelocidadeHorizontal = forca * (math.cos(direcao))
+		_pombaVelocidadeVertical = forca * (math.sin(direcao))
+	end
 end
 
 function pomba.gravidade(fps)
-    if (pombaDisparada == 1) then
-        pombaVelocidadeVertical = pombaVelocidadeVertical - pombaGravidade * (1/fps)
+    if (_pombaDisparada == 1) then 
+        _pombaVelocidadeVertical = _pombaVelocidadeVertical - _pombaGravidade * (1/fps)
     end
 end
 
 function pomba.atualizaPosicao(fps)
-    pombaX = math.floor(pombaX + pombaVelocidadeHorizontal*(1/fps))
-    pombaY = math.floor(pombaY + pombaVelocidadeVertical*(1/fps))
+    _pombaX = math.floor(_pombaX + _pombaVelocidadeHorizontal*(1/fps))
+    _pombaY = math.floor(_pombaY + _pombaVelocidadeVertical*(1/fps))
     pomba.gravidade(fps)
+end
+
+function pomba.getX()
+	return _pombaX 
+end
+function pomba.getY()
+	return _pombaY
+end
+
+function pomba.getAltura()
+	return _pombaAltura
+end
+
+function pomba.getLargura()
+	return _pombaLargura
 end
