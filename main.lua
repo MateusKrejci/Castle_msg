@@ -5,10 +5,13 @@ dta = 0
 
 
 function love.load()
-  cenario.load()
-  pomba.load()
-  cargaMouse = 0
-  statusJogo = 0 -- 0 aguardando 1 vitoria 2 derrota
+	cenario.load()
+	pomba.load()
+	cargaMouse = 0
+	statusJogo = 0 -- 0 aguardando 1 vitoria 2 derrota
+	musica = love.audio.newSource("som/chiptune.mp3", "stream")
+	love.audio.play(musica)
+	musica:setVolume(.35)
 end
 
 function love.draw()
@@ -95,6 +98,4 @@ function verificaResultado()
    pombaAltura + pombaY > casteloY) and statusJogo == 0 then
 		statusJogo = 1
     end
-
-
 end
